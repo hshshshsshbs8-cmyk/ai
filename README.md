@@ -46,9 +46,3 @@ python -m pytest -q
 ```
 
 Tests use pytest-provided temporary directories only and verify both the hash chain and emitted state-diff validation.
-
-## Operational hardening
-
-This implementation uses canonical JSON serialization, SHA-256 chained records, durable ledger writes (`fsync`), atomic file replacement, restrictive creation permissions for sandbox roots, and non-zero exit codes for rejected runs/reports. `audit` also checks that every trajectory's audit reference exists in the validated ledger chain.
-
-For production deployment, run each sandbox in an OS-level isolated worker (container/VM with a read-only base filesystem, dropped privileges, resource limits, and egress disabled), store ledger and trajectory artifacts in immutable/versioned storage, and protect ledger signing keys in a managed key service. Path checks in this repository are an application-level defence and must not be treated as a replacement for operating-system isolation. Pin and scan runtime dependencies in your deployment pipeline, and send audit/report failures to monitoring before allowing any dataset export.
